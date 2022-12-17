@@ -8,22 +8,30 @@ namespace API_AJ.AuthToken
     {
         public static async Task<UserAuthResponse> GetUSerAuthorization()
         {
-            var client = new RestClient("https://sendbox.platform.ajsy.com.br");
+            try
+            {
+                var client = new RestClient("https://sendbox.platform.ajsy.com.br");
 
-            var request = new RestRequest("api/Token", Method.Post);
+                var request = new RestRequest("api/Token", Method.Post);
 
-            request.AddHeader("Content-Type", "application/json");
-            request.AddHeader("Accept", "application/json");
+                request.AddHeader("Content-Type", "application/json");
+                request.AddHeader("Accept", "application/json");
 
-            var user = new UserAuth();
-            user.user = "davi";
-            user.password = "123456";
-            var convertUSer = JsonConvert.SerializeObject(user);
-            request.AddBody(convertUSer);
+                var user = new UserAuth();
+                user.user = "davi";
+                user.password = "123456";
+                var convertUSer = JsonConvert.SerializeObject(user);
+                request.AddBody(convertUSer);
 
-            var response = await client.PostAsync<UserAuthResponse>(request);
+                var response = await client.PostAsync<UserAuthResponse>(request);
 
-            return response;
+                return response;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return null;
+            }
         }
              
     }
